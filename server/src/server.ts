@@ -1,8 +1,11 @@
-require('dotenv').config()
 import express from 'express';
-import { connectToMongoDB } from './config/db';
+import { connectToMongo } from './config/db';
 
-connectToMongoDB();
+// Load env locally
+if (process.env.prod !== 'production')
+  require('dotenv').config();
+
+connectToMongo();
 
 const app = express();
 
