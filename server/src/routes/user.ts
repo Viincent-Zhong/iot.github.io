@@ -1,4 +1,5 @@
-import {Router, Request, Response} from 'express';
+import { Router } from 'express';
+import { register, login, logout } from '../controllers/user';
 
 const router = Router();
 
@@ -8,8 +9,7 @@ const router = Router();
         - 200, createdMessage
         - 400, errorMessage
 */
-router.post('/register', (req: Request, res: Response) => {
-});
+router.post('/register', register)
 
 /*
     Body : { email: string, password: string}
@@ -17,8 +17,7 @@ router.post('/register', (req: Request, res: Response) => {
         - 200, loggedMessage, auth cookie
         - 400, errorMessage
 */
-router.post('/login', (req: Request, res: Response) => {
-});
+router.post('/login', login)
 
 /*
     Include credential (cookie)
@@ -26,7 +25,6 @@ router.post('/login', (req: Request, res: Response) => {
         - 200, deleteMessage, cookie deleted
         - 400, errorMessage
 */
-router.post('/logout', (req: Request, res: Response) => {
-});
+router.post('/logout', logout)
 
 export default router;
