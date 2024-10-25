@@ -1,0 +1,82 @@
+@import url(
+"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    font-weight: normal;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    color: rgb(231, 231, 231);
+    background-image: url("../assets/gradient_background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+
+    overflow-x: hidden;
+}
+
+.title {
+    padding-top: 30px;
+    font-size: 42px;
+    text-align: center;
+}
+
+.category {
+    padding: 60px;
+    padding-top: 0px;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.category h2 {
+    font-size: 32px;
+    padding-bottom: 10px;
+}
+
+.device-container-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.device-container {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+
+.device-card {    
+    width: 20%;
+    max-width: 300px;
+    background-color: rgb(231, 231, 231);
+    border-radius: 10%;
+
+    color: black;
+}
+
+.device-card img {
+    padding: 30px;
+}
+
+.device-card-info {
+    padding: 20px;
+}
+
+.device-chart {
+    width: 80%;
+    height: 100%;
+    padding: 40px;
+    background-color: rgb(231, 231, 231);
+}
