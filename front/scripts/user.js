@@ -1,4 +1,4 @@
-const deviceContainer = document.getElementById('deviceContainer');
+const deviceContainer = document.getElementById('deviceContainerList');
 
 deviceContainer.innerHTML = "";
 
