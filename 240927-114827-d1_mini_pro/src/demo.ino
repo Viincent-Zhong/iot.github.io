@@ -31,8 +31,6 @@ void sendData()
   unsigned long now = millis();
   if (now - lastMsg > 10000) {
     lastMsg = now;
-    mqtt_client->publish(alert_topic.c_str(), "1");
-
     StaticJsonDocument<200> JSONData;
     JSONData["device"] = ESP.getChipId();
     JSONData["value"] = analogRead(A0);
@@ -51,6 +49,8 @@ void mqttCallback(char *topic, byte *payload, unsigned int length) {
     }
     Serial.println();
     Serial.println("-----------------------");
+
+    // Alert topic
     if (strcmp(topic, alert_topic.c_str()) == 0) {
       if ((char)payload[0] == '1') {
         digitalWrite(D4, LOW); // LED On
@@ -69,7 +69,6 @@ void connectToBroker() {
         Serial.println("Connected to MQTT broker");
         alert_topic = String("alert/" + String(ESP.getChipId()));
         mqtt_client->subscribe(alert_topic.c_str());
-        mqtt_client->subscribe("data");
     } else {
         Serial.print("Failed to connect to MQTT broker, rc=");
         Serial.print(mqtt_client->state());
