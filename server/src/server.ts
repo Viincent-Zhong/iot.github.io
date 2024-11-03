@@ -1,6 +1,7 @@
 import express from 'express';
 import router from './routes/routes';
 import { connectToMongo } from './config/db';
+import "./server-mqtt"
 
 var cors = require('cors')
 var cookieParser = require('cookie-parser')
@@ -9,7 +10,7 @@ var cookieParser = require('cookie-parser')
 if (process.env.prod !== 'production')
   require('dotenv').config();
 
-connectToMongo();
+//connectToMongo();
 
 const app = express();
 
