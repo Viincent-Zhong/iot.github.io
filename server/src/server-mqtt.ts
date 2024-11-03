@@ -1,7 +1,6 @@
 import mqtt from "mqtt";
 import fs from "fs";
 import { processData } from "./brokerControllers/data";
-import { registerDevice } from "./brokerControllers/register";
 
 // Load env locally
 if (process.env.prod !== 'production')
@@ -58,9 +57,6 @@ client.on("message", async (topic, message: any) => {
     switch (topic) {
         case "data":
             processData(message);
-            break;
-        case "register-device":
-            registerDevice(message);
             break;
     }
 });
