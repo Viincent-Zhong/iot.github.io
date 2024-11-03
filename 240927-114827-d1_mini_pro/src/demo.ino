@@ -40,6 +40,15 @@ void sendData()
   }
 }
 
+void registerDevice()
+{
+  StaticJsonDocument<200> JSONData;
+  JSONData["device"] = ESP.getChipId();
+  char jsonBuffer[100];
+  serializeJson(JSONData, jsonBuffer);
+  mqtt_client->publish("register-device", jsonBuffer);
+}
+
 void mqttCallback(char *topic, byte *payload, unsigned int length) {
     Serial.print("Message received on topic: ");
     Serial.println(topic);
@@ -69,6 +78,7 @@ void connectToBroker() {
         Serial.println("Connected to MQTT broker");
         alert_topic = String("alert/" + String(ESP.getChipId()));
         mqtt_client->subscribe(alert_topic.c_str());
+        registerDevice();
     } else {
         Serial.print("Failed to connect to MQTT broker, rc=");
         Serial.print(mqtt_client->state());
