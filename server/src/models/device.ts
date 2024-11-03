@@ -14,8 +14,8 @@ const deviceSchema = new Schema<IDevice>({
     _id: { type: Schema.Types.ObjectId, required: true },
     uid: { type: Schema.Types.ObjectId, required: true },
     type: { type: String, required: true },
-    usersIds: { type: [String] },
-    threshold: { type: Number }
+    usersIds: { type: [String], default: [] },
+    threshold: { type: Number, default: 300 }
 })
 
 export const DeviceModel = model('Device', deviceSchema);

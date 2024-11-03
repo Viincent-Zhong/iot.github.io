@@ -1,7 +1,7 @@
 import mqtt from "mqtt";
 import fs from "fs";
-import { Types } from 'mongoose';
-import { SensorDatasModel } from "./models/sensorDatas";
+import { processData } from "./brokerControllers/data";
+import { registerDevice } from "./brokerControllers/register";
 
 // Load env locally
 if (process.env.prod !== 'production')
@@ -55,18 +55,13 @@ client.on('error', function (error) {
 });
 
 client.on("message", async (topic, message: any) => {
-    if (topic == "data") {
-        let data = JSON.parse(message);
-        console.log("Storing ", data.device, " with value ", data.value);
-        try {
-            await SensorDatasModel.create({
-                _id: new Types.ObjectId(),
-                deviceId: data.device,
-                value: parseInt(data.value)
-            })
-        } catch (err) {
-            console.log('Error storing data : ', err);
-        }
+    switch (topic) {
+        case "data":
+            processData(message);
+            break;
+        case "register-device":
+            registerDevice(message);
+            break;
     }
 });
 
