@@ -6,7 +6,6 @@ interface IAlerts {
     deviceId: String;
     timestamp: Schema.Types.Date;
     value: Number;
-    userId: String;
 }
 
 // Alerts model
@@ -15,7 +14,6 @@ const alertsSchema = new Schema<IAlerts>({
     deviceId: { type: String, required: true },
     timestamp: { type: Schema.Types.Date, required: true },
     value: { type: Number, required: true },
-    userId: { type: String, required: true }
 })
 
 export const AlertsModel = model('Alerts', alertsSchema);

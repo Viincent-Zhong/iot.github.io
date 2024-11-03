@@ -6,8 +6,10 @@ const router = Router();
 
 interface IAlertResponse {
     deviceId: String;
-    timestamp: Date;
-    value: Number;
+    alerts: [{
+        timestamp: Date;
+        value: Number;
+    }]
 }
 
 /*
