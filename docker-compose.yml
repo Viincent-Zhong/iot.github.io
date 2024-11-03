@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  mongoContainer:
+    image: mongo
+    ports:
+      - "8001:8001"
+
+  server:
+    build: ./server
+    volumes:
+      - ./server:/server
+    ports:
+      - '4000:4000'
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongoContainer
+
+volumes:
+  mongo-data:
+    driver: local

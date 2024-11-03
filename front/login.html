@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" 
+          content="width=device-width, 
+                         initial-scale=1.0">
+    <title>IoT</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <header>
+        <h1 class="heading">IoT</h1>
+    </header>
+
+    <div class="container">
+
+        <div class="btn">
+            <h1 class="login">Login Form</h1>
+        </div>
+
+        <div class="form-section">
+            <div class="login-box">
+                <input type="username" 
+                       class="ele"
+                       id = "username" 
+                       placeholder="username">
+                <input type="password"
+                       class="ele" 
+                       id = "password"
+                       placeholder="password">
+                <div class="error" id="errorPromptContainer">
+                    <i class='bx bx-md bxs-error'></i>
+                    <p id="errorPrompt">There was an error</p>
+                </div>
+                <button class="clkbtn" id="loginButton">Login</button>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/login.js"></script>
+</body>
+</html>
