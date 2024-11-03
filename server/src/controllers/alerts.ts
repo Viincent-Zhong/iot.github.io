@@ -46,17 +46,21 @@ async function setThreshold(req: any, res: any) {
     const { deviceId, value } = req.body;
     const userId = req.userId;
 
-    // Is it to user ?
     try {
-        await DeviceModel.findOneAndUpdate(
+        const result = await DeviceModel.updateOne(
             {
-                deviceId: deviceId
+                uid: deviceId,
+                usersIds: {$in: [userId]}
             },
             {
                 threshold: parseInt(value)
             }
         );
-        return res.status(200).json({ message: 'Threshold updated'})
+
+        if (!result)
+            return res.status(400).json({ message: 'Could not update threshold'});
+
+        return res.status(200).json({ message: 'Threshold updated'});
     } catch(error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error'});

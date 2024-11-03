@@ -18,7 +18,7 @@ async function getDatas(req: any, res: any) {
             return res.status(400).json({ message: 'Invalid device'});
         }
 
-        const datasResponse : [ISensorDatasResponse] = datas.map((data: any) => ({
+        const datasResponse : ISensorDatasResponse[] = datas.map((data: any) => ({
             timestamp: data.timestamp,
             value: data.value,
         }));
