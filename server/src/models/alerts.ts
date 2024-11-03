@@ -12,7 +12,7 @@ interface IAlerts {
 const alertsSchema = new Schema<IAlerts>({
     _id: { type: Schema.Types.ObjectId, required: true },
     deviceId: { type: String, required: true },
-    timestamp: { type: Schema.Types.Date, required: true },
+    timestamp: { type: Schema.Types.Date, default: Date.now },
     value: { type: Number, required: true },
 })
 
