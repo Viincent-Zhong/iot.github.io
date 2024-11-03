@@ -1,5 +1,7 @@
 import mqtt from "mqtt";
 import fs from "fs";
+import { Types } from 'mongoose';
+import { SensorDatasModel } from "./models/sensorDatas";
 
 // Load env locally
 if (process.env.prod !== 'production')
@@ -45,17 +47,27 @@ async function testBroker() {
 client.on('connect', async function () {
     console.log('Connected');
     client.subscribe("data");
-    client.subscribe("alert/14484003")
-    testBroker();
+    //testBroker();
 });
 
 client.on('error', function (error) {
     console.log("MQTT Error : " + error);
 });
 
-client.on("message", (topic, message) => {
-    // message is Buffer
-    console.log(message.toString());
+client.on("message", async (topic, message: any) => {
+    if (topic == "data") {
+        let data = JSON.parse(message);
+        console.log("Storing ", data.device, " with value ", data.value);
+        try {
+            await SensorDatasModel.create({
+                _id: new Types.ObjectId(),
+                deviceId: data.device,
+                value: parseInt(data.value)
+            })
+        } catch (err) {
+            console.log('Error storing data : ', err);
+        }
+    }
 });
 
 export default client;

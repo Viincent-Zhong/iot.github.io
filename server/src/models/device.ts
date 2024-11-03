@@ -3,9 +3,9 @@ import { Schema, model } from 'mongoose';
 // Device interface
 interface IDevice {
     _id: Schema.Types.ObjectId;
-    uid: Schema.Types.ObjectId;
+    uid: String;
     type: String;
-    usersIds: [Schema.Types.ObjectId];
+    usersIds: [String];
     threshold: Number;
 }
 
@@ -14,7 +14,7 @@ const deviceSchema = new Schema<IDevice>({
     _id: { type: Schema.Types.ObjectId, required: true },
     uid: { type: Schema.Types.ObjectId, required: true },
     type: { type: String, required: true },
-    usersIds: { type: [Schema.Types.ObjectId] },
+    usersIds: { type: [String] },
     threshold: { type: Number }
 })
 

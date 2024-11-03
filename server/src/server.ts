@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser')
 if (process.env.prod !== 'production')
   require('dotenv').config();
 
-//connectToMongo();
+connectToMongo();
 
 const app = express();
 

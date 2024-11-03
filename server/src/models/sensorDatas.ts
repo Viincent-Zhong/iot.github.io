@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 // SensorDatas interface
 interface ISensorDatas {
     _id: Schema.Types.ObjectId;
-    deviceId: Schema.Types.ObjectId;
+    deviceId: String;
     timestamp: Schema.Types.Date;
     value: Number;
 }
@@ -11,8 +11,8 @@ interface ISensorDatas {
 // SensorDatas model
 const sensorDatasSchema = new Schema<ISensorDatas>({
     _id: { type: Schema.Types.ObjectId, required: true },
-    deviceId: { type: Schema.Types.ObjectId, required: true },
-    timestamp: { type: Schema.Types.Date, required: true},
+    deviceId: { type: String, required: true },
+    timestamp: { type: Schema.Types.Date, default: Date.now},
     value: { type: Number, required: true}
 })
 
