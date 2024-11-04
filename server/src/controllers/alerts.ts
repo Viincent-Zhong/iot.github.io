@@ -16,7 +16,7 @@ async function getAlerts(req: any, res: any) {
     try {
         if (!id) { // Get alerts from all devices from this user
             const devices = await DeviceModel.find({
-                usersIds: {$in: [userId]}
+                usersIds: userId
             })
 
             if (!devices)
@@ -63,14 +63,14 @@ async function setThreshold(req: any, res: any) {
         const result = await DeviceModel.updateOne(
             {
                 uid: deviceId,
-                usersIds: {$in: [userId]}
+                usersIds: userId
             },
             {
                 threshold: parseInt(value)
             }
         );
 
-        if (!result)
+        if (!result || !result.upsertedId)
             return res.status(400).json({ message: 'Could not update threshold'});
 
         return res.status(200).json({ message: 'Threshold updated'});

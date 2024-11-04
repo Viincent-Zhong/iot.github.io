@@ -15,7 +15,7 @@ async function getDevices(req: any, res: any) {
     try {
         if (!id) { // All devices
             const devices = await DeviceModel.find({
-                usersIds: {$in: [userId]}
+                usersIds: userId
             })
             if (!devices)
                 return res.status(400).json({message: 'Could not get devices'});
@@ -29,8 +29,8 @@ async function getDevices(req: any, res: any) {
             return res.status(200).json(devicesResponse);
         } else { // Single device
             const device = await DeviceModel.findOne({
-                deviceId: id,
-                usersIds: {$in: [userId]}
+                uid: id,
+                usersIds: userId
             })
             if (!device)
                 return res.status(400).json({message: 'Could not get devices'});
@@ -82,7 +82,7 @@ async function unlinkDevice(req: any, res: any) {
             // Unlink all devices
             result = await DeviceModel.updateMany(
                 {
-                    usersIds: {$in: [userId]}
+                    usersIds: userId
                 },
                 {
                     $pull: {usersIds: userId}
@@ -93,7 +93,7 @@ async function unlinkDevice(req: any, res: any) {
             result = await DeviceModel.updateOne(
                 {
                     uid: id,
-                    usersIds: {$in: [userId]}
+                    usersIds: userId
                 },
                 {
                     $pull: {usersIds: userId}
@@ -117,7 +117,7 @@ async function pingDevice(req: any, res: any) {
     try {
         const device = await DeviceModel.findOne({
             uid: deviceId,
-            usersIds: {$in: [userId]}
+            usersIds: userId
         })
         if (!device)
             return res.status(400).json({message: 'Could not ping device'});
