@@ -8,7 +8,7 @@ const router = Router();
 
 router.use('/', userRouter);
 router.use('/device', deviceRouter);
-router.use('sensor-datas', sensorDatasRouter);
+router.use('/sensor-datas', sensorDatasRouter);
 router.use('/alerts', alertsRouter);
 
 export default router;

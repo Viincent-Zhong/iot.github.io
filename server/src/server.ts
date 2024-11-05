@@ -1,6 +1,7 @@
 import express from 'express';
 import router from './routes/routes';
 import { connectToMongo } from './config/db';
+import "./server-mqtt"
 
 var cors = require('cors')
 var cookieParser = require('cookie-parser')

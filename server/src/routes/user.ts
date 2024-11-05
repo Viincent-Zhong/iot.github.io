@@ -27,4 +27,8 @@ router.post('/login', login)
 */
 router.post('/logout', logout)
 
+router.get('/', (req: any, res: any) => {
+    return res.status(200).json({ message: 'Hello'});
+});
+
 export default router;
