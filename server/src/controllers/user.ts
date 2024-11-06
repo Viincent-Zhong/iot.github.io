@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import webpush from 'web-push';
 import { UserModel } from "../models/user";
 
 const validateEmail = (email: string) => {
@@ -20,11 +21,18 @@ async function register(req: any, res: any) {
             return res.status(400).json({message: 'Email already exists'});
         const hashedPassword = bcrypt.hashSync(password, 10);
 
+        const vapidKeys = webpush.generateVAPIDKeys();
+
         await UserModel.create({
             _id: new Types.ObjectId(),
             email: email,
             name: name,
-            password: hashedPassword
+            password: hashedPassword,
+            vapid: {
+                mailto: 'mailto:' + email,
+                publicKey: vapidKeys.publicKey,
+                privateKey: vapidKeys.privateKey
+            }
         })
         return res.status(200).json({ message: 'User created' });
     } catch (err) {

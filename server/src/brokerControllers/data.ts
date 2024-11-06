@@ -1,8 +1,10 @@
 import { Types } from 'mongoose';
 import { SensorDatasModel } from '../models/sensorDatas';
 import { DeviceModel } from '../models/device';
+import { UserModel } from '../models/user';
 import { AlertsModel } from '../models/alerts';
 import brokerClient from '../server-mqtt';
+import { sendNotification } from '../components/action';
 
 async function processData(message: any) {
     let data = JSON.parse(message);
@@ -36,7 +38,16 @@ async function processData(message: any) {
             setTimeout(() => {
                 brokerClient.publish('alert/' + data.device, '0')
             }, 30000)
-            // Ping all device.userIDS
+
+            // Ping all device users
+            device.usersIds.map(async (id) => {
+                const user = await UserModel.findOne({
+                    _id: id
+                });
+                if (!user)
+                    return;
+                sendNotification(user.subscription, "ALERT")
+            })
         }
     } catch (err) {
         console.log('Error storing data : ', err);

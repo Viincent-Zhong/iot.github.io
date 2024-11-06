@@ -27,7 +27,7 @@ self.addEventListener('fetch', function(e) {
   // );
 });
 
-self.addEventListener('push', (e: any) => {
+self.addEventListener('push', (e) => {
   let message = e.data.json();
 
   console.log(message)
