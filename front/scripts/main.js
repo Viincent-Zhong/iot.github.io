@@ -35,7 +35,7 @@ async function subscribeToPush() {
     // Get vapid public key
     const publickey = await fetch('http://localhost:4000/pwa/vapid-key', {
       method: 'GET',
-      credentials: "include"
+      credentials: 'include'
     }).then(response => response.json()).then(data => {
       return data.publickey;
     })
@@ -47,7 +47,7 @@ async function subscribeToPush() {
     // Send new subscription
     await fetch('http://localhost:4000/pwa/subscribe', {
       method: 'POST',
-      credentials: "include",
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -58,7 +58,7 @@ async function subscribeToPush() {
     // Send current subscription
     await fetch('http://localhost:4000/pwa/subscribe', {
       method: 'GET',
-      credentials: "include",
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
