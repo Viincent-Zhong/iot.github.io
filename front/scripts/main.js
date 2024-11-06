@@ -16,9 +16,7 @@ function urlBase64ToUint8Array(base64String) {
 const registerServiceWorker = async () => {
   if ("serviceWorker" in navigator && "PushManager" in window) {
     try {
-      await navigator.serviceWorker.register("sw.js", {
-        scope: "/",
-      });
+      await navigator.serviceWorker.register("sw.js");
       console.log('Service worker registered');
     } catch (error) {
       
