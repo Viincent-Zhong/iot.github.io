@@ -1,4 +1,6 @@
-import {Router, Request, Response} from 'express';
+import {Router} from 'express';
+import { isAuth } from '../middleware/isAuth';
+import { getDevices, linkDevice, unlinkDevice, pingDevice } from '../controllers/device';
 
 const router = Router();
 
@@ -15,10 +17,7 @@ interface IDeviceResponse {
         - 200, [IDeviceResponse]
         - 400, errorMessage
 */
-router.get('/:id?', (req: Request, res: Response) => {
-    // No id = all
-    // Id = one
-});
+router.get('/:id?', isAuth, getDevices);
 
 /*
     Include credential (cookie)
@@ -27,8 +26,7 @@ router.get('/:id?', (req: Request, res: Response) => {
         - 200, okMessage
         - 400, errorMessage
 */
-router.post('/link/:id', (req: Request, res: Response) => {
-});
+router.post('/link/:id', isAuth, linkDevice);
 
 /*
     Include credential (cookie)
@@ -37,21 +35,15 @@ router.post('/link/:id', (req: Request, res: Response) => {
         - 200, okMessage
         - 400, errorMessage
 */
-router.delete('/unlink/:id?', (req: Request, res: Response) => {
-    // No id = all
-    // Id = one
-});
+router.delete('/unlink/:id?', isAuth, unlinkDevice);
 
 /*
     Include credential (cookie)
-    Params : id? (deviceId)
+    Body : { deviceId: string, value: string ('1' or '0')}
     Response :
         - 200, okMessage
         - 400, errorMessage
 */
-router.post('/ping/:id?', (req: Request, res: Response) => {
-    // No id = all
-    // Id = one
-});
+router.post('/ping', isAuth, pingDevice);
 
 export default router;

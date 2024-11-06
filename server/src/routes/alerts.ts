@@ -1,12 +1,15 @@
-import {Router, Request, Response} from 'express';
-import { AlertsModel } from '../models/alerts';
+import {Router} from 'express';
+import { getAlerts, setThreshold } from '../controllers/alerts';
+import { isAuth } from '../middleware/isAuth';
 
 const router = Router();
 
 interface IAlertResponse {
     deviceId: String;
-    timestamp: Date;
-    value: Number;
+    alerts: [{
+        timestamp: Date;
+        value: Number;
+    }]
 }
 
 /*
@@ -16,10 +19,7 @@ interface IAlertResponse {
         - 200, [IAlertResponse]
         - 400, errorMessage
 */
-router.get('/:id?', (req: Request, res: Response) => {
-    // No id = all
-    // Id = one
-});
+router.get('/:id?', isAuth, getAlerts);
 
 /*
     Include credential (cookie)
@@ -28,7 +28,6 @@ router.get('/:id?', (req: Request, res: Response) => {
         - 200, okMessage
         - 400, errorMessage
 */
-router.post('/threshold', (req: Request, res: Response) => {
-});
+router.post('/threshold', isAuth, setThreshold);
 
 export default router;
