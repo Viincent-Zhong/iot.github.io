@@ -39,6 +39,7 @@ async function subscribeToPush() {
     }).then(response => response.json()).then(data => {
       return data.publickey;
     })
+    console.log(publickey);
     const sub = await registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(publickey)
