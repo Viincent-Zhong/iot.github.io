@@ -59,7 +59,7 @@ async function subscribeToPush() {
   } else {
     // Send current subscription
     await fetch('http://localhost:4000/pwa/subscribe', {
-      method: 'GET',
+      method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
