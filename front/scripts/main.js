@@ -42,7 +42,8 @@ async function subscribeToPush() {
     console.log(publickey);
     const sub = await registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publickey)
+      applicationServerKey: publickey
+      // applicationServerKey: urlBase64ToUint8Array(publickey)
     });
 
     // Send new subscription
