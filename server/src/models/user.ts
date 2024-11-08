@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import webpush from 'web-push';
 
 // User interface
 interface IUser {
@@ -11,7 +12,7 @@ interface IUser {
         publicKey: String,
         privateKey: String
     },
-    subscription: PushSubscription
+    subscription: webpush.PushSubscription
 }
 
 // User model
@@ -25,7 +26,7 @@ const userSchema = new Schema<IUser>({
         publicKey: { type: String, required: true },
         privateKey: { type: String, required: true }
     },
-    subscription: { type: PushSubscription }
+    subscription: { type: Object }
 })
 
 export const UserModel = model('User', userSchema);
