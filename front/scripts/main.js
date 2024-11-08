@@ -1,24 +1,7 @@
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding)
-    .replace(/\\-/g, '+')
-    .replace(/_/g, '/')
- 
-  const rawData = window.atob(base64)
-  const outputArray = new Uint8Array(rawData.length)
- 
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i)
-  }
-  return outputArray
-}
-
 const registerServiceWorker = async () => {
   if ("serviceWorker" in navigator && "PushManager" in window) {
     try {
-      await navigator.serviceWorker.register("/sw.js", {
-        scope: "/",
-      });
+      await navigator.serviceWorker.register("sw.js");
       console.log('Service worker registered');
     } catch (error) {
       console.error(`Registration failed with ${error}`);
@@ -41,7 +24,7 @@ async function subscribeToPush() {
     })
     const sub = await registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publickey)
+      applicationServerKey: publickey
     });
 
     // Send new subscription
@@ -57,7 +40,7 @@ async function subscribeToPush() {
   } else {
     // Send current subscription
     await fetch('http://localhost:4000/pwa/subscribe', {
-      method: 'GET',
+      method: 'POST',
       credentials: "include",
       headers: {
         'Content-Type': 'application/json',
