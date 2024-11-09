@@ -21,6 +21,8 @@ self.addEventListener('notificationclose', (e) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({deviceId: self.deviceId, value: "0"})
+    }).then(response => {
+      console.log(response);
     });
   }
 });
