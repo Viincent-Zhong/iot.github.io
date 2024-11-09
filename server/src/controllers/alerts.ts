@@ -4,7 +4,7 @@ import { DeviceModel } from "../models/device";
 interface IAlertResponse {
     deviceId: String;
     alerts: {
-        timestamp: Date;
+        timestamp: String;
         value: Number;
     }[];
 }
