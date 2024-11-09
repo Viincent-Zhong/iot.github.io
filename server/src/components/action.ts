@@ -1,6 +1,6 @@
 import webpush from 'web-push';
  
-export function sendNotification(subscription: any, message: string, vapid: any) {
+export function sendNotification(subscription: any, message: string, vapid: any, deviceId: any) {
   try {
     const parsedUrl = new URL(subscription.endpoint);
     const audience = `${parsedUrl.protocol}//${parsedUrl.hostname}`;
@@ -12,12 +12,14 @@ export function sendNotification(subscription: any, message: string, vapid: any)
       'aes128gcm'
     );
 
+    // Peut etre envoyer les détails (deviceid)
     webpush.sendNotification(
       subscription,
       JSON.stringify({
-        title: 'Test Notification',
+        title: 'Alert notification',
         body: message,
         icon: '/icon.png',
+        deviceId: deviceId
       }),
       {
         headers: vapidHeaders

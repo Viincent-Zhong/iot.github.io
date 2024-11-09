@@ -39,7 +39,7 @@ async function processData(message: any) {
             brokerClient.publish('alert/' + data.device, '1');
             setTimeout(() => {
                 brokerClient.publish('alert/' + data.device, '0')
-            }, 30000)
+            }, 60000)
 
             // Ping all device users
             device.usersIds.map(async (id) => {
@@ -50,7 +50,7 @@ async function processData(message: any) {
                     if (!user)
                         return;
                     console.log('Pinging ', id);
-                    sendNotification(user.subscription, "ALERT", user.vapid)
+                    sendNotification(user.subscription, "ALERT value of " + data.value + " on device " + data.device, user.vapid, data.device)
                 } catch (error) {
                     console.log('Error pinging user ', id, ' : ', error);
                 }

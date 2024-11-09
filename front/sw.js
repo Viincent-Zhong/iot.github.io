@@ -1,40 +1,27 @@
-var cacheName = 'hello-pwa';
-var filesToCache = [
-  '/',
-  '/*.html',
-  '/css/*',
-  '/scripts/*'
-];
-
 console.log('Sw registered');
-
-/* Start the service worker and cache all of the app's content */
-self.addEventListener('install', function(e) {
-  // e.waitUntil(
-    // caches.open(cacheName).then(function(cache) {
-      // return cache.addAll(filesToCache);
-    // })
-  // );
-  // self.skipWaiting();
-});
-
-/* Serve cached content when offline */
-self.addEventListener('fetch', function(e) {
-  // e.respondWith(
-    // caches.match(e.request).then(function(response) {
-      // return response || fetch(e.request);
-    // })
-  // );
-});
 
 self.addEventListener('push', (e) => {
   let message = e.data.json();
 
-  console.log(message)
   e.waitUntil(
       registration.showNotification(message.title, {
         body: message.body,
         icon: message.icon
       })
   )
+  self.deviceId = message.deviceId
 })
+
+self.addEventListener('notificationclose', (e) => {
+  if (self.deviceId) {
+    console.log('Device ID:', self.deviceId);
+    fetch('http://localhost:4000/device/ping', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({deviceId: self.deviceId, value: "0"})
+    });
+  }
+});

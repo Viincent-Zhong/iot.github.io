@@ -16,6 +16,7 @@ async function isAuth(req: any, res: any, next: any) {
         next();
     } catch(error) {
         console.log("Auth error : ", error);
+        res.clearCookie('token');
         return res.status(500).json({ message: 'Internal server error'});
     }
 }
