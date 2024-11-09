@@ -10,14 +10,15 @@ self.addEventListener('push', (e) => {
         icon: message.icon
       })
   )
+  self.deviceId = message.deviceId
 })
 
 self.addEventListener('notificationclick', (e) => {
   e.notification.close();
   console.log('User closed the notification');
-  // fetch('http://localhost:4000/device/ping', {
-  //     method: 'GET',
-  //     credentials: 'include',
-  //     body: JSON.stringify({deviceId: "ok", value: "0"})
-  // });
+  fetch('http://localhost:4000/device/ping', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({deviceId: self.deviceId, value: "0"})
+  });
 });
