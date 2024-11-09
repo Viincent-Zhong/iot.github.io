@@ -3,7 +3,6 @@ console.log('Sw registered');
 self.addEventListener('push', (e) => {
   let message = e.data.json();
 
-  console.log(message)
   e.waitUntil(
       registration.showNotification(message.title, {
         body: message.body,
@@ -14,10 +13,6 @@ self.addEventListener('push', (e) => {
 })
 
 self.addEventListener('notificationclose', (e) => {
-  const notification = e.notification;
-  
-  console.log('Notification closed:', notification);
-
   if (self.deviceId) {
     console.log('Device ID:', self.deviceId);
     fetch('http://localhost:4000/device/ping', {
