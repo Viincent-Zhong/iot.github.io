@@ -9,11 +9,13 @@
 #include <LittleFS.h>  // Remplacer SPIFFS par LittleFS pour ESP8266
 #include <ESP8266mDNS.h>  // Pour mDNS sur ESP8266
 #include <ESPConnect.h>
-/* Broker */
+/* Broker + SSL */
 #include <PubSubClient.h>
 #include <CertStoreBearSSL.h>
 #include <TZ.h>
 #include <ArduinoJson.h>
+/* Timezones lib */
+#include <NTPClient.h>
 
 const char *mqtt_broker = "775360ff0b4a48688c72fb94bcfa50e6.s1.eu.hivemq.cloud";  // EMQX broker endpoint
 const char *mqtt_username = "admin";  // MQTT username for authentication
@@ -26,6 +28,12 @@ PubSubClient * mqtt_client;
 BearSSL::CertStore certStore;
 unsigned long lastMsg = 0;
 
+WiFiUDP ntpUDP;
+NTPClient *timeClient = NULL;
+
+String weekDays[7]={"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+String months[12]={"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
 void sendData()
 {
   unsigned long now = millis();
@@ -34,6 +42,20 @@ void sendData()
     StaticJsonDocument<200> JSONData;
     JSONData["device"] = ESP.getChipId();
     JSONData["value"] = analogRead(A0);
+
+    timeClient->update();
+    time_t epochTime = timeClient->getEpochTime();
+    struct tm *ptm = gmtime ((time_t *)&epochTime); 
+
+    String weekDay = weekDays[timeClient->getDay()];
+    int monthDay = ptm->tm_mday;
+    int currentMonth = ptm->tm_mon+1;
+    String currentMonthName = months[currentMonth-1];
+    int currentYear = ptm->tm_year+1900;
+    String date = currentMonthName + " " + String(monthDay) + " " + String(currentYear) + " " + timeClient->getFormattedTime();
+    //String date = currentMonthName + " " + String(monthDay) + " " + String(currentYear) + " " + timeClient->getHours() + ":" timeClient->getMinutes();
+
+    JSONData["date"] = date;
     char jsonBuffer[100];
     serializeJson(JSONData, jsonBuffer);
     mqtt_client->publish("data", jsonBuffer);
@@ -79,6 +101,8 @@ void connectToBroker() {
         alert_topic = String("alert/" + String(ESP.getChipId()));
         mqtt_client->subscribe(alert_topic.c_str());
         registerDevice();
+        // Register timezone
+        timeClient = new NTPClient(ntpUDP, "pool.ntp.org", 3600);
     } else {
         Serial.print("Failed to connect to MQTT broker, rc=");
         Serial.print(mqtt_client->state());
