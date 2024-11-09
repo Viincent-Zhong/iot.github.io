@@ -14,7 +14,6 @@ self.addEventListener('push', (e) => {
 
 self.addEventListener('notificationclose', (e) => {
   if (self.deviceId) {
-    console.log('Device ID:', self.deviceId);
     fetch('https://iot-light-tracker.onrender.com/device/ping', {
       method: 'POST',
       credentials: 'include',
