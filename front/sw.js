@@ -13,14 +13,20 @@ self.addEventListener('push', (e) => {
   self.deviceId = message.deviceId
 })
 
-self.addEventListener('notificationclick', (e) => {
-  e.notification.close();
-  fetch('http://localhost:4000/device/ping', {
+self.addEventListener('notificationclose', (e) => {
+  const notification = e.notification;
+  
+  console.log('Notification closed:', notification);
+
+  if (self.deviceId) {
+    console.log('Device ID:', self.deviceId);
+    fetch('http://localhost:4000/device/ping', {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({deviceId: self.deviceId, value: "0"})
-  });
+    });
+  }
 });
