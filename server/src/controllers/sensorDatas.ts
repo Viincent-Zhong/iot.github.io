@@ -1,7 +1,7 @@
 import { SensorDatasModel } from "../models/sensorDatas";
 
 interface ISensorDatasResponse {
-    timestamp: Date;
+    timestamp: String;
     value: Number;    
 }
 
