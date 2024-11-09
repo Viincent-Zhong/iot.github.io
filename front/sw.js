@@ -15,10 +15,12 @@ self.addEventListener('push', (e) => {
 
 self.addEventListener('notificationclick', (e) => {
   e.notification.close();
-  console.log('User closed the notification');
   fetch('http://localhost:4000/device/ping', {
       method: 'POST',
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({deviceId: self.deviceId, value: "0"})
   });
 });
