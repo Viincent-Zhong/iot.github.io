@@ -1,6 +1,6 @@
 import webpush from 'web-push';
  
-export function sendNotification(subscription: any, message: string, vapid: any, deviceId: any) {
+export async function sendNotification(subscription: any, message: string, vapid: any, deviceId: any) {
   try {
     const parsedUrl = new URL(subscription.endpoint);
     const audience = `${parsedUrl.protocol}//${parsedUrl.hostname}`;
@@ -13,7 +13,7 @@ export function sendNotification(subscription: any, message: string, vapid: any,
     );
 
     // Peut etre envoyer les détails (deviceid)
-    webpush.sendNotification(
+    await webpush.sendNotification(
       subscription,
       JSON.stringify({
         title: 'Alert notification',
