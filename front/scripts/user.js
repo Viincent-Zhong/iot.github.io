@@ -46,3 +46,61 @@ for (const device of user_data["devices"]) {
         }
       });
 }
+
+const linkDeviceButton = document.getElementById('linkDeviceButton');
+linkDeviceButton.addEventListener('click', async () => {
+    const deviceId = document.getElementById('deviceId').value;
+    linkDevice(deviceId);
+});
+
+async function linkDevice(id)
+{
+    try {
+        const response = await fetch(`http://localhost:4000/device/link/${deviceId}`, {
+            method: 'POST',
+            credentials: 'include', // This ensures cookies are sent with the request
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Link successful:', data);
+
+            getDevices();
+        } else {
+            const errorData = await response.json();
+            console.error('Link failed:', errorData.message);
+        }
+    } catch (error) {
+        console.error('Error while linking device:', error);
+    }
+}
+
+getDevices();
+
+async function getDevices()
+{
+    try {
+        const response = await fetch(`http://localhost:4000/device/`, {
+            method: 'GET',
+            credentials: 'include', // This ensures cookies are sent with the request
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Get Devices successful:', data);
+        } else {
+            const errorData = await response.json();
+            console.error('Get Devices failed:', errorData.message);
+        }
+    } catch (error) {
+        console.error('Error while getting devices:', error);
+    }
+};
+
+
