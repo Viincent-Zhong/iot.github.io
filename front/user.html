@@ -6,28 +6,38 @@
           content="width=device-width, 
                          initial-scale=1.0">
     <title>IoT</title>
-    <link rel="stylesheet" 
-          href="css/user.css">
+    <link rel="stylesheet" href="css/user.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
 <body>
+    <button id="logoutButton" class="red-button">Log Out</button>
     <h1 class="title">Welcome!</h1>
+    <div class="homeboard">
+        <button class="board-option" id="linkBoardDeviceButton">
+            <i class='bx bx-link'></i><p>Link new Device</p>
+        </button>
+        <button class="board-option" id="subscribeButton">
+            Subscribe to notifications
+        </div>
+    </div>
+
+    <div id="deviceLinkPopup" class="popup">
+        <div class="popup-content">
+          <span class="close" id="closePopupButton">&times;</span>
+          <h2>Enter new Device ID:</h2>
+          <input type="text" id="deviceId" name="deviceId" placeholder="Device ID">
+          <button id="linkDeviceButton">Link Device</button>
+        </div>
+    </div>
+
     <div class="category">
         <h2>Devices</h2>
-        <div>
-            <input type="deviceId" 
-                class="ele"
-                id = "deviceId" 
-                placeholder="Device Id">
-            <button class="clkbtn" id="linkDeviceButton">Link Device</button>
-        </div>
-        <button id="sub">Subscribe to notifications</button>
         <div class="device-container-list" id="deviceContainerList">
         </div>
     </div>
-    <script src="scripts/user_data.js"></script>
     <script src="scripts/user.js"></script>
     <script src="scripts/main.js"></script>
 </body>

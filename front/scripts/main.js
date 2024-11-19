@@ -55,7 +55,7 @@ window.onload = () => {
   registerServiceWorker();
 }
 
-const subButton = document.getElementById('sub');
+const subButton = document.getElementById('subscribeButton');
 
 subButton.addEventListener("click", (event) => {
   subscribeToPush();
