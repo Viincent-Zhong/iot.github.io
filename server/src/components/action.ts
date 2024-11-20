@@ -1,14 +1,29 @@
 import webpush from 'web-push';
  
-export function sendNotification(subscription: any, message: string) {
+export async function sendNotification(subscription: any, message: string, vapid: any, deviceId: any) {
   try {
-    webpush.sendNotification(
+    const parsedUrl = new URL(subscription.endpoint);
+    const audience = `${parsedUrl.protocol}//${parsedUrl.hostname}`;
+    const vapidHeaders = webpush.getVapidHeaders(
+      audience,
+      vapid.mailto,
+      vapid.publicKey,
+      vapid.privateKey,
+      'aes128gcm'
+    );
+
+    // Peut etre envoyer les détails (deviceid)
+    await webpush.sendNotification(
       subscription,
       JSON.stringify({
-        title: 'Test Notification',
+        title: 'Alert notification',
         body: message,
         icon: '/icon.png',
-      })
+        deviceId: deviceId
+      }),
+      {
+        headers: vapidHeaders
+      }
     );
     console.log('Sent notification');
     return;

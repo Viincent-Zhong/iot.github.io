@@ -4,7 +4,7 @@ import { Schema, model } from 'mongoose';
 interface IAlerts {
     _id: Schema.Types.ObjectId;
     deviceId: String;
-    timestamp: Schema.Types.Date;
+    timestamp: String;
     value: Number;
 }
 
@@ -12,7 +12,7 @@ interface IAlerts {
 const alertsSchema = new Schema<IAlerts>({
     _id: { type: Schema.Types.ObjectId, required: true },
     deviceId: { type: String, required: true },
-    timestamp: { type: Schema.Types.Date, default: Date.now },
+    timestamp: { type: String, required: true},
     value: { type: Number, required: true },
 })
 

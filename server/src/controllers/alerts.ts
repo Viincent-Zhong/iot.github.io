@@ -4,7 +4,7 @@ import { DeviceModel } from "../models/device";
 interface IAlertResponse {
     deviceId: String;
     alerts: {
-        timestamp: Date;
+        timestamp: String;
         value: Number;
     }[];
 }
@@ -70,7 +70,7 @@ async function setThreshold(req: any, res: any) {
             }
         );
 
-        if (!result || !result.upsertedId)
+        if (!result || result.modifiedCount === 0)
             return res.status(400).json({ message: 'Could not update threshold'});
 
         return res.status(200).json({ message: 'Threshold updated'});

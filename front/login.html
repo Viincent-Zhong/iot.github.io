@@ -17,25 +17,47 @@
 
     <div class="container">
 
+        <div class="slider"></div>
         <div class="btn">
-            <h1 class="login">Login Form</h1>
+            <button class="login">Login</button>
+            <button class="signup">Signup</button>
         </div>
 
         <div class="form-section">
             <div class="login-box">
-                <input type="username" 
+                <input type="email" 
                        class="ele"
-                       id = "username" 
-                       placeholder="username">
+                       id = "loginEmail" 
+                       placeholder="Email">
                 <input type="password"
                        class="ele" 
-                       id = "password"
-                       placeholder="password">
-                <div class="error" id="errorPromptContainer">
+                       id = "loginPassword"
+                       placeholder="Password">
+                <div class="error" id="loginErrorPromptContainer">
                     <i class='bx bx-md bxs-error'></i>
-                    <p id="errorPrompt">There was an error</p>
+                    <p id="loginErrorPrompt">There was an error</p>
                 </div>
                 <button class="clkbtn" id="loginButton">Login</button>
+            </div>
+
+            <div class="signup-box">
+                <input type="username" 
+                       class="ele"
+                       id = "signupUsername" 
+                       placeholder="Username">
+                <input type="email" 
+                       class="ele"
+                       id = "signupEmail" 
+                       placeholder="Email">
+                <input type="password"
+                       class="ele" 
+                       id = "signupPassword"
+                       placeholder="Password">
+                <div class="error" id="signupErrorPromptContainer">
+                    <i class='bx bx-md bxs-error'></i>
+                    <p id="signupErrorPrompt">There was an error</p>
+                </div>
+                <button class="clkbtn" id="signupButton">Signup</button>
             </div>
         </div>
     </div>

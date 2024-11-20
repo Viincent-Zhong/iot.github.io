@@ -21,12 +21,13 @@ router.post('/subscribe', isAuth, async (req: any, res: any) => {
         const user = await UserModel.updateOne({
             _id: userId
         }, {
-            subscription: JSON.parse(subscription)
+            subscription: subscription
         })
         if (!user)
             return res.status(400).json({ message: 'Error'});
         return res.status(200).json({message: 'Subscribed'});
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ message: 'Internal server error'});
     }
 });
