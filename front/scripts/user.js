@@ -30,7 +30,7 @@ closeLinkDevicePopup.addEventListener('click', async () => {
 async function logout()
 {
     try {
-        const response = await fetch(`http://localhost:4000/logout`, {
+        const response = await fetch(`https://iot-light-tracker.onrender.com/logout`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -55,7 +55,7 @@ async function logout()
 async function linkDevice(id)
 {
     try {
-        const response = await fetch(`http://localhost:4000/device/link/${deviceId}`, {
+        const response = await fetch(`https://iot-light-tracker.onrender.com/device/link/${id}`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -82,7 +82,7 @@ async function linkDevice(id)
 async function unlinkDevice(id)
 {
     try {
-        const response = await fetch(`http://localhost:4000/device/unlink/${deviceId}`, {
+        const response = await fetch(`https://iot-light-tracker.onrender.com/device/unlink/${id}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -113,7 +113,7 @@ async function getDevices()
     deviceContainer.innerHTML = "";
 
     try {
-        const response = await fetch(`http://localhost:4000/device/`, {
+        const response = await fetch(`https://iot-light-tracker.onrender.com/device/`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -211,7 +211,7 @@ async function displayDeviceInfo(deviceInfo)
 
 async function getDeviceSensorData(deviceId) {
     try {
-        const response = await fetch(`http://localhost:4000/sensor-datas/${deviceId}`, {
+        const response = await fetch(`https://iot-light-tracker.onrender.com/sensor-datas/${deviceId}`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -235,7 +235,7 @@ async function setDeviceAlertsThreshold(deviceId, threshold) {
     };
 
     try {
-        const response = await fetch(`http://localhost:4000/alerts/threshold`, {
+        const response = await fetch(`https://iot-light-tracker.onrender.com/alerts/threshold`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -244,13 +244,11 @@ async function setDeviceAlertsThreshold(deviceId, threshold) {
             body: JSON.stringify(requestBody),
         });
 
-        if (!response.ok) {
-            const error = await response.json();
-            alert(`Error: ${error.message}`);
-            console.error('Error:', error);
-        }
-
         const data = await response.json();
+        if (!response.ok) {
+            alert(`Error: ${data.message}`);
+            console.error('Error:', data);
+        }
         console.log(data);
     } catch (error) {
         console.error('Error:', error);

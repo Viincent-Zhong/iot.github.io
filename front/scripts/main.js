@@ -16,7 +16,7 @@ async function subscribeToPush() {
 
   if (!subscription) {
     // Get vapid public key
-    const publickey = await fetch('http://localhost:4000/pwa/vapid-key', {
+    const publickey = await fetch('https://iot-light-tracker.onrender.com/pwa/vapid-key', {
       method: 'GET',
       credentials: "include"
     }).then(response => response.json()).then(data => {
@@ -28,7 +28,7 @@ async function subscribeToPush() {
     });
 
     // Send new subscription
-    await fetch('http://localhost:4000/pwa/subscribe', {
+    await fetch('https://iot-light-tracker.onrender.com/pwa/subscribe', {
       method: 'POST',
       credentials: "include",
       headers: {
@@ -39,7 +39,7 @@ async function subscribeToPush() {
     console.log('Subscribed to notification');
   } else {
     // Send current subscription
-    await fetch('http://localhost:4000/pwa/subscribe', {
+    await fetch('https://iot-light-tracker.onrender.com/pwa/subscribe', {
       method: 'POST',
       credentials: "include",
       headers: {

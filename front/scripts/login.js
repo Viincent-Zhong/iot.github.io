@@ -32,7 +32,7 @@ loginButton.addEventListener('click', async () => {
     };
 
     try {
-        const response = await fetch('http://localhost:4000/login', {
+        const response = await fetch('https://iot-light-tracker.onrender.com/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ signupButton.addEventListener('click', async () => {
     };
 
     try {
-        const response = await fetch('http://localhost:4000/register', {
+        const response = await fetch('https://iot-light-tracker.onrender.com/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
