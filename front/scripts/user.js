@@ -54,6 +54,7 @@ async function logout()
 
 async function linkDevice(id)
 {
+    console.log('Linking id : ', id);
     try {
         const response = await fetch(`${serverPath}device/link/${id}`, {
             method: 'POST',
