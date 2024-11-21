@@ -81,6 +81,7 @@ async function linkDevice(id)
 
 async function unlinkDevice(id)
 {
+    console.log('UnLinking : ', id);
     try {
         const response = await fetch(`${serverPath}device/unlink/${id}`, {
             method: 'DELETE',
