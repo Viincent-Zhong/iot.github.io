@@ -280,13 +280,11 @@ async function setDeviceAlertsThreshold(deviceId, threshold) {
             body: JSON.stringify(requestBody),
         });
 
-        if (!response.ok) {
-            const error = await response.json();
-            alert(`Error: ${error.message}`);
-            console.error('Error:', error);
-        }
-
         const data = await response.json();
+        if (!response.ok) {
+            alert(`Error: ${data.message}`);
+            console.error('Error:', data);
+        }
         console.log(data);
     } catch (error) {
         console.error('Error:', error);
