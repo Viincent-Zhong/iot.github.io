@@ -55,7 +55,7 @@ async function logout()
 async function linkDevice(id)
 {
     try {
-        const response = await fetch(`${serverPath}device/link/${deviceId}`, {
+        const response = await fetch(`${serverPath}device/link/${id}`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -82,7 +82,7 @@ async function linkDevice(id)
 async function unlinkDevice(id)
 {
     try {
-        const response = await fetch(`${serverPath}device/unlink/${deviceId}`, {
+        const response = await fetch(`${serverPath}device/unlink/${id}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
