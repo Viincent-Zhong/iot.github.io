@@ -16,7 +16,7 @@ async function subscribeToPush() {
 
   if (!subscription) {
     // Get vapid public key
-    const publickey = await fetch('http://localhost:4000/pwa/vapid-key', {
+    const publickey = await fetch(`${serverPath}pwa/vapid-key`, {
       method: 'GET',
       credentials: "include"
     }).then(response => response.json()).then(data => {
@@ -28,7 +28,7 @@ async function subscribeToPush() {
     });
 
     // Send new subscription
-    await fetch('http://localhost:4000/pwa/subscribe', {
+    await fetch(`${serverPath}pwa/subscribe`, {
       method: 'POST',
       credentials: "include",
       headers: {
@@ -39,7 +39,7 @@ async function subscribeToPush() {
     console.log('Subscribed to notification');
   } else {
     // Send current subscription
-    await fetch('http://localhost:4000/pwa/subscribe', {
+    await fetch(`${serverPath}pwa/subscribe`, {
       method: 'POST',
       credentials: "include",
       headers: {
@@ -55,7 +55,7 @@ window.onload = () => {
   registerServiceWorker();
 }
 
-const subButton = document.getElementById('sub');
+const subButton = document.getElementById('subscribeButton');
 
 subButton.addEventListener("click", (event) => {
   subscribeToPush();
