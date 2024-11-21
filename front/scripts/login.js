@@ -32,7 +32,7 @@ loginButton.addEventListener('click', async () => {
     };
 
     try {
-        const response = await fetch('http://localhost:4000/login', {
+        const response = await fetch(`${serverPath}login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ signupButton.addEventListener('click', async () => {
     };
 
     try {
-        const response = await fetch('http://localhost:4000/register', {
+        const response = await fetch(`${serverPath}register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

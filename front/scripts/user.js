@@ -30,7 +30,7 @@ closeLinkDevicePopup.addEventListener('click', async () => {
 async function logout()
 {
     try {
-        const response = await fetch(`http://localhost:4000/logout`, {
+        const response = await fetch(`${serverPath}logout`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -55,7 +55,7 @@ async function logout()
 async function linkDevice(id)
 {
     try {
-        const response = await fetch(`http://localhost:4000/device/link/${deviceId}`, {
+        const response = await fetch(`${serverPath}device/link/${deviceId}`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -82,7 +82,7 @@ async function linkDevice(id)
 async function unlinkDevice(id)
 {
     try {
-        const response = await fetch(`http://localhost:4000/device/unlink/${deviceId}`, {
+        const response = await fetch(`${serverPath}device/unlink/${deviceId}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -113,7 +113,7 @@ async function getDevices()
     deviceContainer.innerHTML = "";
 
     try {
-        const response = await fetch(`http://localhost:4000/device/`, {
+        const response = await fetch(`${serverPath}device/`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -127,6 +127,8 @@ async function getDevices()
             devicesData.forEach(device => {
                 displayDeviceInfo(device);
             });
+
+            updateCollapsibles();
         } else {
             const error = await response.json();
             console.error('Get Devices failed:', error.message);
@@ -140,6 +142,23 @@ async function getDevices()
         alert(`Error: ${error.message}`);
     }
 };
+
+function updateCollapsibles()
+{
+    let coll = document.getElementsByClassName("collapsible");
+
+    for (let i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            let content = this.nextElementSibling;
+            if (content.style.maxHeight){
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } 
+        });
+    }
+}
 
 async function displayDeviceInfo(deviceInfo)
 {
@@ -164,7 +183,13 @@ async function displayDeviceInfo(deviceInfo)
                 id="deviceThreshold" 
                 placeholder="Device Threshold">
             <button class="clkbtn" id="setThresholdDeviceButton">Update Threshold</button>
-            <button id="unlinkDeviceButton" class="red-button">Unlink Device</button>
+        </div>
+        <div class='device-alerts'>
+            <button type="button" class="collapsible">Previous alerts</button>
+            <div class="device-alerts-content" id="deviceAlertsContent"></div>
+        </div>
+        <div class="device-unlink">
+        <button id="unlinkDeviceButton" class="red-button">Unlink Device</button>
         </div>
     `;
 
@@ -180,38 +205,49 @@ async function displayDeviceInfo(deviceInfo)
     });
 
     const sensorData = await getDeviceSensorData(deviceInfo.id);
-    if (sensorData.length == 0) {
-        return;
+    if (sensorData.length > 0) {
+        let dates = sensorData.map(item => new Date(item.timestamp).toLocaleString());
+        let values = sensorData.map(item => item.value);
+
+        const canvas = deviceDiv.querySelector(`#chart-${deviceInfo.id}`);
+        const ctx = canvas.getContext('2d');
+
+        let myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: `Device ${deviceInfo.id}`,
+                    data: values,
+                    borderColor: 'blue',
+                    borderWidth: 2,
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
     }
 
-    let dates = sensorData.map(item => new Date(item.timestamp).toLocaleString());
-    let values = sensorData.map(item => item.value);
-
-    const canvas = deviceDiv.querySelector(`#chart-${deviceInfo.id}`);
-    const ctx = canvas.getContext('2d');
-
-    let myChart = new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: dates,
-            datasets: [{
-                label: `Device ${deviceInfo.id}`,
-                data: values,
-                borderColor: 'blue',
-                borderWidth: 2,
-                fill: true,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-      });
+    const alertsData = await getDeviceAlertsData(deviceInfo.id);
+    if (alertsData.length > 0 && alertsData[0].alerts.length > 0) {
+        let deviceAlertsContent = deviceDiv.querySelector("#deviceAlertsContent");
+        
+        alertsData[0].alerts.forEach(deviceAlert => {
+            console.log(deviceAlert);
+            const deviceAlertDiv = document.createElement('p');
+            deviceAlertDiv.className = 'device-alerts-data';
+            deviceAlertDiv.innerHTML = `${new Date(deviceAlert.timestamp).toLocaleString()} - Alert threshold: ${deviceAlert.value}`; 
+            deviceAlertsContent.appendChild(deviceAlertDiv);
+        });
+    }
 }
 
 async function getDeviceSensorData(deviceId) {
     try {
-        const response = await fetch(`http://localhost:4000/sensor-datas/${deviceId}`, {
+        const response = await fetch(`${serverPath}sensor-datas/${deviceId}`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -235,7 +271,7 @@ async function setDeviceAlertsThreshold(deviceId, threshold) {
     };
 
     try {
-        const response = await fetch(`http://localhost:4000/alerts/threshold`, {
+        const response = await fetch(`${serverPath}alerts/threshold`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -258,4 +294,22 @@ async function setDeviceAlertsThreshold(deviceId, threshold) {
     }
 }
 
+async function getDeviceAlertsData(deviceId) {
+    try {
+        const response = await fetch(`${serverPath}alerts/${deviceId}`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+        if (!response.ok) {
+            const error = await response.json();
+            alert(`Error: ${error.message}`);
+            console.error('Error:', error);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`Error: ${error.message}`);
+        return [];
+    }
+}
 
